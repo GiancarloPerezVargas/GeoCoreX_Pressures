@@ -1,10 +1,20 @@
+# Archivos de Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.env
-.venv/
-env/
+
+# Entornos virtuales
 venv/
-.ipynb_checkpoints
+env/
+.venv/
+
+# Archivos de Streamlit
+.streamlit/
+
+# Archivos de sistema
 .DS_Store
+Thumbs.db
+
+# Otros
+*.log
