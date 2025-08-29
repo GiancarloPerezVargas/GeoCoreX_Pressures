@@ -31,6 +31,16 @@ st.markdown("""
         border-left: 4px solid #2a5298;
         margin: 0.5rem 0;
     }
+    .metric-container .metric-title {
+        font-size: 1rem;  /* Título de la métrica */
+        margin: 0 0 0.2rem 0;
+        font-weight: 600;
+    }
+    .metric-container .metric-value {
+        font-size: 1.5rem;  /* Valor numérico */
+        margin: 0;
+        font-weight: 700;
+    }
     .stTabs [data-baseweb="tab-list"] {
         gap: 2px;
     }
@@ -58,18 +68,18 @@ st.markdown("""
 # ================== ENCABEZADO PRINCIPAL ==================
 st.markdown("""
 <div class="main-header">
-    <h1>⚡ GeoCoreX | Análisis de Presiones Laterales</h1>
+    <h1>GeoCoreX | Análisis de Presiones Laterales</h1>
     <p>Cálculo automatizado mediante método geométrico con consideración de nivel freático y desfase en interfaces</p>
 </div>
 """, unsafe_allow_html=True)
 
 # ================== FUNCIONES AUXILIARES ==================
 def create_metric_card(title, value, unit, icon):
-    """Crear tarjetas de métricas personalizadas"""
+    """Crear tarjetas de métricas personalizadas con tamaño proporcional"""
     st.markdown(f"""
     <div class="metric-container">
-        <h4>{icon} {title}</h4>
-        <h2>{value} {unit}</h2>
+        <div class="metric-title">{icon} {title}</div>
+        <div class="metric-value">{value} {unit}</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -163,7 +173,7 @@ with st.sidebar:
     st.markdown("### 🎛️ Parámetros de Entrada")
     
     # Sección de sobrecarga
-    st.markdown("#### 📊 Sobrecarga Superficial")
+    st.markdown("#### ↓↓↓  Sobrecarga Superficial")
     q_unit = st.selectbox("Unidad:", ["kN/m²", "t/m²"])
     
     if q_unit == "kN/m²":
@@ -210,7 +220,7 @@ with st.sidebar:
     st.markdown("---")
     
     # Sección de nivel freático
-    st.markdown("#### 💧 Condiciones Hidrogeológicas")
+    st.markdown("#### ≋ Condiciones Hidrogeológicas")
     z_water_top = st.number_input("Profundidad NAF (m):", value=2.40, step=0.01)
     gamma_w_kN = st.number_input("γw (kN/m³):", value=9.81, step=0.01)
 
@@ -220,7 +230,7 @@ results = calculate_pressure_distribution(
 )
 
 # ================== RESULTADOS PRINCIPALES ==================
-st.markdown("### 📈 Resultados del Análisis")
+st.markdown("### ⏧ Resultados del Análisis")
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -228,7 +238,7 @@ with col1:
         "Empuje Total", 
         f"{results['P_total_t']:.2f}", 
         "t/m",
-        "⚡"
+        "⯈"
     )
 
 with col2:
@@ -236,7 +246,7 @@ with col2:
         "Empuje Total", 
         f"{results['P_total_t'] * 9.81:.1f}", 
         "kN/m",
-        "🔧"
+        "⯈"
     )
 
 with col3:
@@ -244,20 +254,20 @@ with col3:
         "Centro de Presiones", 
         f"{results['z_bar']:.3f}", 
         "m",
-        "🎯"
+        "⨁"
     )
 
 # ================== PESTAÑAS DE CONTENIDO ==================
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📋 Tabla Resumen", 
-    "📊 Diagrama", 
-    "📖 Metodología", 
-    "⭕ Círculos de Mohr"
+    "▣ Tabla Resumen", 
+    "▧ Diagrama", 
+    "∫ Metodología", 
+    "○ Círculos de Mohr"
 ])
 
 # PESTAÑA 1: Tabla de resultados
 with tab1:
-    st.markdown("#### 📋 Resumen Detallado por Estrato")
+    st.markdown("####  Resumen Detallado por Estrato")
     
     # Preparar datos para la tabla
     table_data = []
@@ -303,7 +313,7 @@ with tab1:
 
 # PESTAÑA 2: Gráficas
 with tab2:
-    st.markdown("#### 📊 Diagrama de Distribución de Presiones")
+    st.markdown("#### ∇ Diagrama de Distribución de Presiones")
     
     # Crear figura
     fig, ax = plt.subplots(figsize=(10, 8))
@@ -375,12 +385,12 @@ with tab2:
 
 # PESTAÑA 3: Metodología
 with tab3:
-    st.markdown("#### 📖 Fundamentos Teóricos")
+    st.markdown("#### ∂ Fundamentos Teóricos")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("##### 🧮 Fórmulas Principales")
+        st.markdown("##### ∑ Fórmulas Principales")
         st.latex(r"K_0 = 1 - \sin(\varphi)")
         st.latex(r"P_{total} = \sum_{i=1}^{n} A_i + A_{agua}")
         st.latex(r"\bar{z} = \frac{\sum A_i \cdot z_i}{P_{total}}")
@@ -396,7 +406,7 @@ with tab3:
         - **Centro de presiones**: Método de momentos estáticos
         """)
     
-    st.markdown("##### 🎯 Aplicabilidad del Método")
+    st.markdown("##### ⏧ Aplicabilidad del Método")
     st.info("""
     **Válido para:**
     - Suelos granulares y cohesivos normalmente consolidados
@@ -411,9 +421,9 @@ with tab3:
 
 # PESTAÑA 4: Círculos de Mohr
 with tab4:
-    st.markdown("#### ⭕ Análisis de Estados de Esfuerzo - Círculos de Mohr")
+    st.markdown("#### ▧ Análisis de Estados de Esfuerzo - Círculos de Mohr")
     
-    st.markdown("##### 📊 Ingreso de Estados de Esfuerzo")
+    st.markdown("##### ⏦ Ingreso de Estados de Esfuerzo")
     st.caption("Ingrese hasta 4 pares de esfuerzos principales en kg/cm²")
     
     # Crear columnas para entrada de datos
@@ -503,7 +513,7 @@ with tab4:
         st.pyplot(fig_mohr)
         
         # Tabla de análisis
-        st.markdown("##### 📊 Análisis de Estados de Esfuerzo")
+        st.markdown("##### ⏦ Análisis de Estados de Esfuerzo")
         analysis_data = []
         for idx, (s1, s3) in enumerate(mohr_data):
             tau_max = (s1 - s3) / 2
@@ -528,7 +538,7 @@ st.markdown("---")
 col1, col2, col3 = st.columns([2, 1, 2])
 
 with col1:
-    st.markdown("#### 🔗 Contacto Profesional")
+    st.markdown("#### ")
     st.markdown("""
     - [LinkedIn](https://www.linkedin.com/in/giancarlo-p%C3%A9rez-vargas-a04a3026b/)
     - [Instagram](https://www.instagram.com/giancarlo_perez_vargas/)
@@ -536,7 +546,7 @@ with col1:
     """)
 
 with col3:
-    st.markdown("#### ⚖️ Información Legal")
+    st.markdown("#### ")
     st.caption("© 2025 GeoCoreX - Todos los derechos reservados")
     st.caption("Software desarrollado para análisis geotécnico preliminar")
     st.caption("Versión 2.0 - Actualizado en 2025")
